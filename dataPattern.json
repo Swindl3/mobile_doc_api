@@ -1,0 +1,44 @@
+{
+  "results": [
+    {
+      "group_name": "ECP3N",
+      "doc_list": [
+        {
+          "doc_name": "ใบคำร้อง",
+          "doc_file": ":/C/ใบคำร้อง.pdf",
+          "doc_detail": "คำร้องทั่วไป"
+        },
+        {
+          "doc_name": "ใบคำร้อง",
+          "doc_file": ":/C/ใบคำร้อง.pdf",
+          "doc_detail": "คำร้องทั่วไป"
+        },
+        {
+          "doc_name": "ใบคำร้อง",
+          "doc_file": ":/C/ใบคำร้อง.pdf",
+          "doc_detail": "คำร้องทั่วไป"
+        }
+      ]
+    },
+    {
+      "group_name": "ECP4Q",
+      "doc_list": [
+        {
+          "doc_name": "ใบคำร้อง",
+          "doc_file": ":/C/ใบคำร้อง.pdf",
+          "doc_detail": "คำร้องทั่วไป"
+        },
+        {
+          "doc_name": "ใบคำร้อง",
+          "doc_file": ":/C/ใบคำร้อง.pdf",
+          "doc_detail": "คำร้องทั่วไป"
+        },
+        {
+          "doc_name": "ใบคำร้อง",
+          "doc_file": ":/C/ใบคำร้อง.pdf",
+          "doc_detail": "คำร้องทั่วไป"
+        }
+      ]
+    }
+  ]
+}
