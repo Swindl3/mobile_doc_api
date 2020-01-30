@@ -64,6 +64,18 @@ route.post('/adduser',async (req,res)=>{
         response = resp.success(result,"Success to add user")
     }
     resp.sending(req,res,response)
-})
 
+})
+route.post('/login',async (req,res)=>{
+    let [error , result] = await data.getUserPassword(req.body)
+    let response 
+    console.log("result",result)
+    if(result == null ||!result ||result.length == 0|| error){
+        let msg = "Wrong username or password"
+        response  = resp.error(msg)
+    }else{
+        response = resp.success(result,"Success to login")
+    }
+    resp.sending(req,res,response)
+})
 module.exports = route;

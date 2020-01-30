@@ -29,7 +29,7 @@ var resp = {
      },
      error: (error)=>{
         return {
-            message: 'Error => '  + error, 
+            message:error, 
             status: 'fail',
             success: false
         }

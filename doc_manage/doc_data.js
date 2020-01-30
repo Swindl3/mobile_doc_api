@@ -94,6 +94,22 @@ var data = {
             error = err
         }
         return [error,result] 
+    },
+    getUserPassword: async (data , callback) => {
+        let userName = data.user_username
+        let passWord = data.user_password
+        console.log("userName  ", userName)
+        console.log("passWord ", passWord)
+        let error
+        let result
+        try {
+            let sql = `SELECT * FROM user WHERE user_username = ? AND user_password = ?`
+            result = await dbcon.query(sql,[userName,passWord])
+        }catch(err){
+            error = err
+        }
+
+        return [error , result]
     }
 }
 
