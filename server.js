@@ -7,6 +7,7 @@ const data = require('./doc_manage/doc_api')
 
 server.use(bodyParser.json({ limit: '5mb' })); // support json encoded bodies
 server.use(bodyParser.urlencoded({ extended: true, limit: '5mb' })); // support encoded bodies
+process.env.PWD = process.cwd()
 
 server.use(function (req, res, next) {
 
@@ -36,3 +37,5 @@ server.listen(port, "0.0.0.0", function () {
 });
 
 server.use("/api",data)
+
+server.use(express.static(process.env.PWD + '/upload'));
