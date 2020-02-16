@@ -4,6 +4,7 @@ var resp = require('../formatRes');
 var data = require('./doc_data');
 
 route.get('/getgroup',async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
     let [error , result] = await data.getGroup()
     let response;
     if(error){
@@ -14,8 +15,8 @@ route.get('/getgroup',async (req, res) => {
     }
     resp.sending(req,res,response)
 })
-route.post('/getdoc' , async (req,res)=>{
-    
+route.post('/getdoc' , async (req,res)=>{ 
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
     let [error, result] = await data.getDocFromGroupId(req.body)
     let response 
     if(error){
@@ -26,6 +27,7 @@ route.post('/getdoc' , async (req,res)=>{
     resp.sending(req,res,response)
 })
 route.post('/addgroup',async (req,res)=>{
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
     let [error , result] = await data.addGroup(req.body)
     let response 
     if(error){
@@ -36,6 +38,7 @@ route.post('/addgroup',async (req,res)=>{
     resp.sending(req,res,response)
 })
 route.post('/delgroup',async (req,res)=>{
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
     let [error , result] = await data.delGroup(req.body)
     let response 
     if(error){
@@ -46,6 +49,7 @@ route.post('/delgroup',async (req,res)=>{
     resp.sending(req,res,response)
 })
 route.post('/adddoc',async (req,res)=>{
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
     let [error , result] = await data.addDoc(req.body)
     let response 
     if(error){
@@ -56,6 +60,7 @@ route.post('/adddoc',async (req,res)=>{
     resp.sending(req,res,response)
 })
 route.post('/adduser',async (req,res)=>{
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
     let [error , result] = await data.addUser(req.body)
     let response 
     if(error){
@@ -67,6 +72,7 @@ route.post('/adduser',async (req,res)=>{
 
 })
 route.post('/login',async (req,res)=>{
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
     let [error , result] = await data.getUserPassword(req.body)
     let response 
     console.log("result",result)
