@@ -124,6 +124,26 @@ var data = {
         }
 
         return [error, result]
+    },
+    editGroup: async (data , callback) => {
+        let values = {
+            group_name:data.group_name,
+            group_description:data.group_description
+        }
+        let group_id = data.group_id
+        console.log("group_id  :", group_id)
+        console.log("group_name : ", values.group_name)
+        console.log("group_description :", values.group_description)
+        let error
+        let result
+        try {
+            let sql = `UPDATE group_doc SET ? WHERE group_id=?`
+            result = await dbcon.query(sql, [values, group_id])
+        } catch (err) {
+            error = err
+        }
+
+        return [error, result]
     }
 }
 
