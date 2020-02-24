@@ -1,6 +1,6 @@
 var dbcon = require('../dbConnect')
 var fs = require('fs')
-var {uuid}  = require('uuidv4')
+var { uuid } = require('uuidv4')
 
 var data = {
     getGroup: async (callback) => {
@@ -60,6 +60,20 @@ var data = {
 
         return [error, result]
     },
+    delDoc: async (data, callback) => {
+        let id = data.doc_id
+        console.log("Doc ID Delete is :", id)
+        let error
+        let result
+        try {
+            let sql_doc = `DELETE FROM document WHERE doc_id = ?`
+            result = await dbcon.query(sql_doc, id)
+        } catch (err) {
+            error = err
+        }
+
+        return [error, result]
+    },
     addDoc: async (data, callback) => {
         let pathimg;
         // console.log("BASE64" + data.doc_picture)
@@ -70,14 +84,15 @@ var data = {
         pathimg = picture_name;
         fs.writeFile("./upload/" + picture_name, base64Image, { encoding: 'base64' }, function (err) {
             console.log(err)
-    
+
         });
         let values = {
             "user_id": data.user_id,
             "group_id": data.group_id,
             "doc_picture": pathimg,
             "doc_name": data.doc_name,
-            "doc_description": data.doc_description
+            "doc_description": data.doc_description,
+            "doc_objective":data.doc_objective
         }
         console.log(values)
         let error
@@ -125,10 +140,10 @@ var data = {
 
         return [error, result]
     },
-    editGroup: async (data , callback) => {
+    editGroup: async (data, callback) => {
         let values = {
-            group_name:data.group_name,
-            group_description:data.group_description
+            group_name: data.group_name,
+            group_description: data.group_description
         }
         let group_id = data.group_id
         console.log("group_id  :", group_id)
@@ -141,6 +156,43 @@ var data = {
             result = await dbcon.query(sql, [values, group_id])
         } catch (err) {
             error = err
+        }
+
+        return [error, result]
+    },
+    editDoc: async (data, callback) => {
+        let pathimg;
+        // console.log("BASE64" + data.doc_picture)
+        // let base64Image = data.doc_picture.split('BASE64').pop();
+        let base64Image = data.doc_picture
+        picture_name = uuid() + ".jpg";
+        console.log(picture_name)
+        pathimg = picture_name;
+        fs.writeFile("./upload/" + picture_name, base64Image, { encoding: 'base64' }, function (err) {
+            console.log(err)
+
+        });
+        let values = {
+            doc_name: data.doc_name,
+            doc_description: data.doc_description,
+            doc_picture: pathimg
+
+        }
+        let doc_id = data.doc_id
+        console.log("IMG path :", pathimg)
+        console.log("doc_id  :", doc_id)
+        console.log("doc_name : ", values.doc_name)
+        console.log("doc_description :", values.doc_description)
+        console.log("doc_pic :", values.doc_picture)
+        let error
+        let result
+        try {
+            let sql = `UPDATE document SET ? WHERE doc_id=?`
+            result = await dbcon.query(sql, [values, doc_id])
+            console.log(result)
+        } catch (err) {
+            error = err
+            console.log("ERROR :", err)
         }
 
         return [error, result]

@@ -26,6 +26,17 @@ route.post('/editgroup', async (req, res) => {
     }
     resp.sending(req, res, response)
 })
+route.post('/editdoc', async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
+    let [error, result] = await data.editDoc(req.body)
+    let response
+    if (error) {
+        response = resp.error(error)
+    } else {
+        response = resp.success(result, "Success to update group doc")
+    }
+    resp.sending(req, res, response)
+})
 route.post('/getdoc', async (req, res) => {
     res.set({ 'content-type': 'application/json; charset=utf-8' });
     let [error, result] = await data.getDocFromGroupId(req.body)
@@ -56,6 +67,17 @@ route.post('/delgroup', async (req, res) => {
         response = resp.error(error)
     } else {
         response = resp.success(result, "Success to del group doc")
+    }
+    resp.sending(req, res, response)
+})
+route.post('/deldoc', async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
+    let [error, result] = await data.delDoc(req.body)
+    let response
+    if (error) {
+        response = resp.error(error)
+    } else {
+        response = resp.success(result, "Success to del doc")
     }
     resp.sending(req, res, response)
 })

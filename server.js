@@ -10,8 +10,8 @@ const chalk = require('chalk');
 
 const data = require('./doc_manage/doc_api')
 
-app.use(bodyParser.json({ limit: '5mb' })); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' })); // support encoded bodies
+app.use(bodyParser.json({ limit: '50mb' })); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' })); // support encoded bodies
 process.env.PWD = process.cwd()
 
 app.use(function (req, res, next) {
@@ -38,7 +38,7 @@ app.use(function (req, res, next) {
 var port = process.env.PORT || 9999;
 server.listen(port, "0.0.0.0", function () {
     console.log("Listening on Port " + port);
-    console.log(chalk.yellow("http://" + ip.address() + ":" + port));
+    console.log(chalk.blue("http://" + ip.address() + ":" + port));
 });
 
 app.use("/api", data)
