@@ -3,12 +3,13 @@ var fs = require('fs')
 var { uuid } = require('uuidv4')
 
 var data = {
-    getGroup: async (callback) => {
+    getGroup: async (data, callback) => {
         let error
         let result
+        console.log(data.groupuser_id)
         try {
-            let sql = 'SELECT * FROM group_doc'
-            result = await dbcon.query(sql)
+            let sql = 'SELECT * FROM group_doc WHERE groupuser_id = ?'
+            result = await dbcon.query(sql, data.groupuser_id)
 
         } catch (err) {
             error = err
@@ -32,7 +33,8 @@ var data = {
     addGroup: async (data, callback) => {
         let values = {
             "group_name": data.group_name,
-            "group_description": data.group_description
+            "group_description": data.group_description,
+            "groupuser_id": data.groupuser_id
         }
         let error
         let result
@@ -74,6 +76,26 @@ var data = {
 
         return [error, result]
     },
+    delGroupUser: async (data, callback) => {
+        let id = data.groupuser_id
+        console.log("Group User ID Delete is :", id)
+        let error
+        let result
+        try {
+            let sql_document = `DELETE FROM document WHERE groupuser_id = ?`
+            result = await dbcon.query(sql_document, id)
+            let sql_group_doc = `DELETE FROM group_doc WHERE groupuser_id = ?`
+            result = await dbcon.query(sql_group_doc, id)
+            let sql_userdoc = `DELETE FROM userdoc WHERE groupuser_id = ?`
+            result = await dbcon.query(sql_userdoc, id)
+            let sql_group_user = `DELETE FROM group_user WHERE groupuser_id = ?`
+            result = await dbcon.query(sql_group_user, id)
+        } catch (err) {
+            error = err
+        }
+
+        return [error, result]
+    },
     addDoc: async (data, callback) => {
         let pathimg;
         // console.log("BASE64" + data.doc_picture)
@@ -92,7 +114,8 @@ var data = {
             "doc_picture": pathimg,
             "doc_name": data.doc_name,
             "doc_description": data.doc_description,
-            "doc_objective":data.doc_objective
+            "doc_objective": data.doc_objective,
+            "groupuser_id":data.groupuser_id
         }
         console.log(values)
         let error
@@ -193,6 +216,81 @@ var data = {
         } catch (err) {
             error = err
             console.log("ERROR :", err)
+        }
+
+        return [error, result]
+    },
+    getUser: async (data, callback) => {
+        let error
+        let result
+        try {
+            let sql = `SELECT * FROM user WHERE user_id != ?`
+            result = await dbcon.query(sql, data.user_id)
+        } catch (err) {
+            error = err
+        }
+
+        return [error, result]
+
+    },
+    getGroupUser: async (data, callback) => {
+        let error
+        let result
+        try {
+            let sql = `SELECT group_user.user_id,
+            group_user.groupuser_name,
+            group_user.groupuser_id,
+            user.user_fname,
+            user.user_lname,
+            user.user_email
+            FROM userdoc
+
+            INNER JOIN group_user
+            
+            ON userdoc.groupuser_id = group_user.groupuser_id
+            
+            INNER JOIN user
+            
+            ON user.user_id = userdoc.user_id
+            
+            WHERE userdoc.user_id = ?`
+            result = await dbcon.query(sql, data.user_id)
+        } catch (err) {
+            error = err
+        }
+
+        return [error, result]
+
+    },
+    createGroupUser: async (data, callback) => {
+        let error
+        let result
+        let values = {
+            "groupuser_name": data.groupuser_name,
+            "user_id": data.user_id
+        }
+        try {
+            let sql = `INSERT INTO group_user SET ?`
+            result = await dbcon.query(sql, values)
+        } catch (err) {
+            error = err
+        }
+
+        return [error, result]
+
+    },
+    createUserDoc: async (data, callback) => {
+        let error
+        let result
+        let values = {
+            "groupuser_id": data.groupuser_id,
+            "user_id": data.user_id
+        }
+        try {
+            let sql = `INSERT INTO userdoc SET ?`
+            result = await dbcon.query(sql, values)
+        } catch (err) {
+            error = err
         }
 
         return [error, result]

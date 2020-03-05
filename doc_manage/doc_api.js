@@ -3,9 +3,9 @@ var route = express.Router();
 var resp = require('../formatRes');
 var data = require('./doc_data');
 
-route.get('/getgroup', async (req, res) => {
+route.post('/getgroup', async (req, res) => {
     res.set({ 'content-type': 'application/json; charset=utf-8' });
-    let [error, result] = await data.getGroup()
+    let [error, result] = await data.getGroup(req.body)
     let response;
     if (error) {
         response = resp.error(error)
@@ -116,5 +116,61 @@ route.post('/login', async (req, res) => {
         response = resp.success(result, "Success to login")
     }
     resp.sending(req, res, response)
+})
+route.post('/getuser', async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
+    let [error, result] = await data.getUser(req.body)
+    let response
+    if (error) {
+        response = resp.error(error)
+    } else {
+        response = resp.success(result, "Success to get user")
+    }
+    resp.sending(req, res, response)
+})
+route.post('/getgroupuser', async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
+    let [error, result] = await data.getGroupUser(req.body)
+    let response
+    if (error) {
+        response = resp.error(error)
+    } else {
+        response = resp.success(result, "Success to get group user")
+    }
+    resp.sending(req, res, response)
+})
+route.post('/creategroupuser', async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
+    let [error, result] = await data.createGroupUser(req.body)
+    let response
+    if (error) {
+        response = resp.error(error)
+    } else {
+        response = resp.success(result, "Success to create group user")
+    }
+    resp.sending(req, res, response)
+})
+route.post('/createuserdoc', async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
+    let [error, result] = await data.createUserDoc(req.body)
+    let response
+    if (error) {
+        response = resp.error(error)
+    } else {
+        response = resp.success(result, "Success to create user doc")
+    }
+    resp.sending(req, res, response)
+})
+route.post('/delgroupuser', async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
+    let [error, result] = await data.delGroupUser(req.body)
+    let response
+    if (error) {
+        response = resp.error(error)
+    } else {
+        response = resp.success(result, "Success to del group user")
+    }
+    resp.sending(req, res, response)
+
 })
 module.exports = route;
