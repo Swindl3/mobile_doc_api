@@ -115,7 +115,7 @@ var data = {
             "doc_name": data.doc_name,
             "doc_description": data.doc_description,
             "doc_objective": data.doc_objective,
-            "groupuser_id":data.groupuser_id
+            "groupuser_id": data.groupuser_id
         }
         console.log(values)
         let error
@@ -294,7 +294,58 @@ var data = {
         }
 
         return [error, result]
-    }
+    },
+    getUserOutsideGroup: async (data, callback) => {
+        let error
+        let result
+        console.log("DAAAAAAAAAAAAAAAAAAAAAAAATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data.groupuser_id)
+
+        try {
+            let sql = ` SELECT user.user_id, user.user_fname,user.user_lname,user.user_username FROM user
+                        LEFT JOIN userdoc AS ud 
+                        ON  user.user_id = ud.user_id
+                        AND ud.groupuser_id = ?
+                        WHERE ud.groupuser_id IS NULL ;`
+            result = await dbcon.query(sql, data.groupuser_id)
+        } catch (err) {
+            error = err
+        }
+
+        return [error, result]
+    },
+    getUserInGroup: async (data,callback) => {
+        let error
+        let result
+        try {
+            let sql = `SELECT * FROM userdoc
+            INNER JOIN user
+            ON userdoc.user_id = user.user_id
+            WHERE userdoc.groupuser_id = ?`
+            result = await dbcon.query(sql, data.groupuser_id)
+        } catch (err) {
+            error = err
+        }
+
+        return [error, result]
+    },
+    editGroupName: async (data, callback) => {
+        let values = {
+            groupuser_name: data.groupuser_name,
+        }
+        let groupuser_id = data.groupuser_id
+        console.log("groupuser_id  :", groupuser_id)
+        console.log("groupuser_name : ", values.groupuser_name)
+        let error
+        let result
+        try {
+            let sql = `UPDATE group_user SET ? WHERE groupuser_id=?`
+            result = await dbcon.query(sql, [values, groupuser_id])
+        } catch (err) {
+            error = err
+        }
+
+        return [error, result]
+    },
 }
 
 module.exports = data;

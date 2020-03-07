@@ -173,4 +173,40 @@ route.post('/delgroupuser', async (req, res) => {
     resp.sending(req, res, response)
 
 })
+route.post('/getuseroutsidegroup', async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
+    let [error, result] = await data.getUserOutsideGroup(req.body)
+    let response
+    if (error) {
+        response = resp.error(error)
+    } else {
+        response = resp.success(result, "Success to get  user outside group")
+    }
+    resp.sending(req, res, response)
+
+})
+route.post('/getuseringroup', async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
+    let [error, result] = await data.getUserInGroup(req.body)
+    let response
+    if (error) {
+        response = resp.error(error)
+    } else {
+        response = resp.success(result, "Success to get  user in group")
+    }
+    resp.sending(req, res, response)
+
+})
+route.post('/editgroupname', async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
+    let [error, result] = await data.editGroupName(req.body)
+    let response
+    if (error) {
+        response = resp.error(error)
+    } else {
+        response = resp.success(result, "Success to edit group name")
+    }
+    resp.sending(req, res, response)
+
+})
 module.exports = route;
