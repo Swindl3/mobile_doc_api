@@ -320,7 +320,8 @@ var data = {
             let sql = `SELECT * FROM userdoc
             INNER JOIN user
             ON userdoc.user_id = user.user_id
-            WHERE userdoc.groupuser_id = ?`
+            WHERE userdoc.groupuser_id = ? 
+            ORDER BY userdoc.timestamp ASC`
             result = await dbcon.query(sql, data.groupuser_id)
         } catch (err) {
             error = err
@@ -346,6 +347,33 @@ var data = {
 
         return [error, result]
     },
+    delUserFromGroup: async (data , callback) => {
+        let userId = data.user_id
+        let groupUserId = data.groupuser_id
+        let error
+        let result
+        try {
+            let sql = `DELETE FROM userdoc WHERE groupuser_id = ? AND user_id = ?`
+            result = await dbcon.query(sql, [groupUserId,userId])
+        } catch (err) {
+            error = err
+        }
+
+        return [error, result]
+    },
+    checkDuplicateUser: async (data , callback) => {
+        let userName = data.user_username
+        let error
+        let result
+        try {
+            let sql = `SELECT user.user_username FROM user WHERE user.user_username = ?`
+            result = await dbcon.query(sql, userName)
+        } catch (err) {
+            error = err
+        }
+
+        return [error, result]
+    }
 }
 
 module.exports = data;

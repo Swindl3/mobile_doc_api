@@ -209,4 +209,28 @@ route.post('/editgroupname', async (req, res) => {
     resp.sending(req, res, response)
 
 })
+route.post('/deluser', async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
+    let [error, result] = await data.delUserFromGroup(req.body)
+    let response
+    if (error) {
+        response = resp.error(error)
+    } else {
+        response = resp.success(result, "Success to del user from group ")
+    }
+    resp.sending(req, res, response)
+
+})
+route.post('/checkduplicate', async (req, res) => {
+    res.set({ 'content-type': 'application/json; charset=utf-8' });
+    let [error, result] = await data.checkDuplicateUser(req.body)
+    let response
+    if (error) {
+        response = resp.error(error)
+    } else {
+        response = resp.success(result, "Success to check dup ")
+    }
+    resp.sending(req, res, response)
+
+})
 module.exports = route;
